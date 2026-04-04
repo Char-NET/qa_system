@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple QA System</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 60%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 70%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .suggestions button {
+            margin: 5px;
+            background: #eee;
+            border: none;
+        }
+        #answer {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size:18px;
+            color: #333;
+            background: #eef;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CSC 309 QA SYSTEM</h1>
+    <h3>Ask a Question</h3>
+
+    <input type="text" id="question" placeholder="Type your question here...">
+    <br>
+    <button onclick="askQuestion()">Ask</button>
+
+    <div id="answer" style="display:none;"></div>
+
+    <h4>Or try one of these:</h4>
+    <div class="suggestions">
+        {% for q in questions %}
+            <button onclick="fillQuestion('{{q}}')">{{q}}</button>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+<script>
+function fillQuestion(q) {
+    document.getElementById("question").value = q;
+}
+
+function askQuestion() {
+    let question = document.getElementById("question").value;
+
+    fetch("/ask", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({question: question})
+    })
+    .then(response => response.json())
+    .then(data => {
+        let answerDiv = document.getElementById("answer");
+        answerDiv.innerText = data.answer;
+        answerDiv.style.display = "block";
+    });
+}
+</script>
+
+</body>
+</html>
