@@ -2,81 +2,121 @@
 <html>
 <head>
     <title>Simple QA System</title>
-    <style>
 
+<style>
+
+/* Animated background */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    text-align: center;
-    padding: 40px;
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #667eea, #764ba2, #6ee7ff, #a78bfa);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
 }
 
+/* Background animation */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Glass container */
 .container {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 30px;
-    border-radius: 15px;
     width: 90%;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 650px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    animation: fadeIn 0.8s ease;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
-    color: #333;
+    color: white;
 }
 
+h3, h4 {
+    color: #f1f1f1;
+}
+
+/* Input */
 input {
-    width: 80%;
+    width: 85%;
     padding: 12px;
     margin-top: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
+    border: none;
+    outline: none;
     font-size: 16px;
+    background: rgba(255,255,255,0.85);
 }
 
+/* Buttons */
 button {
-    padding: 12px 15px;
+    padding: 12px 18px;
     margin-top: 10px;
     cursor: pointer;
     border: none;
-    border-radius: 8px;
-    background: #667eea;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4facfe, #667eea);
     color: white;
     font-size: 15px;
-    transition: 0.3s;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 button:hover {
-    background: #5a67d8;
+    transform: scale(1.05);
 }
 
+/* Suggestions */
 .suggestions button {
     margin: 5px;
-    background: #f1f1f1;
-    color: #333;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(5px);
 }
 
 .suggestions button:hover {
-    background: #ddd;
+    background: rgba(255,255,255,0.4);
 }
 
+/* Answer box */
 #answer {
     margin-top: 20px;
     font-weight: bold;
     font-size: 18px;
-    color: #333;
-    background: #f4f7ff;
+    color: #222;
+    background: rgba(255,255,255,0.92);
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 12px;
     display: none;
+    animation: fadeIn 0.4s ease;
 }
 
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
+
     <h1>CSC 309 QA SYSTEM</h1>
     <h3>Ask a Question</h3>
 
@@ -84,19 +124,20 @@ button:hover {
     <br>
     <button onclick="askQuestion()">Ask</button>
 
-    <div id="answer" style="display:none;"></div>
+    <div id="answer"></div>
 
     <h4>Or try one of these:</h4>
+
     <div class="suggestions">
         {% for q in questions %}
             <button onclick="fillQuestion('{{q}}')">{{q}}</button>
         {% endfor %}
     </div>
 
-
 </div>
 
 <script>
+
 function fillQuestion(q) {
     document.getElementById("question").value = q;
 }
@@ -118,6 +159,7 @@ function askQuestion() {
         answerDiv.style.display = "block";
     });
 }
+
 </script>
 
 </body>
